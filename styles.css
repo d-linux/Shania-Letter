@@ -1,0 +1,706 @@
+/* Hero section */
+:root{
+	--hero-height: 100vh;
+	--overlay-color: rgba(0,0,0,0.35);
+	--accent: #ff6b81;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{
+    height:100%;
+    scroll-behavior: smooth;
+}
+body{
+    height:100%;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    color:#fff;
+    background:#111;
+    overflow-y: auto;
+    scroll-padding-top: 2rem; /* Ensures scrolled content isn't right at the top */
+}
+
+#hero {
+    position: relative;
+    height: var(--hero-height);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    /* use available image in img/ or fall back to a soft gradient */
+    background-image: url('img/a955dcf0-b0be-4948-b6f2-8eaa626efff7.jpg'), linear-gradient(135deg,#7b2ff7 0%, #f107a3 100%);
+    background-size: cover;
+    background-position: center;
+    perspective: 1000px;
+}
+
+.hero-overlay{
+	position:absolute;inset:0;background:var(--overlay-color);z-index:1
+}
+
+.hero-content{
+	position:relative;z-index:2;text-align:center;padding:2rem;max-width:900px
+}
+
+.hero-title{
+	font-size:clamp(2rem,6vw,4rem);
+	letter-spacing:1px;margin-bottom:.5rem;opacity:0;animation:fadeUp 1s ease-out .2s forwards
+}
+.hero-subtitle{
+	font-size:clamp(1rem,2.2vw,1.5rem);color:rgba(255,255,255,0.95);margin-bottom:1.25rem;opacity:0;animation:fadeUp 1s ease-out .5s forwards
+}
+.cta{
+	display:inline-block;padding:.75rem 1.5rem;border-radius:999px;background:linear-gradient(90deg,var(--accent),#ff8aa2);color:#fff;text-decoration:none;font-weight:600;opacity:0;transform:translateY(6px);animation:fadeUp 1s ease-out .8s forwards;box-shadow:0 6px 18px rgba(241,7,163,0.18)
+}
+.cta:active{transform:translateY(1px)}
+
+@keyframes fadeUp{
+	from{opacity:0;transform:translateY(12px)}
+	to{opacity:1;transform:translateY(0)}
+}
+
+/* Heart particles container */
+#heart-particles {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+}
+
+.heart {
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    transform: rotate(-45deg);
+    background: var(--accent);
+    border-radius: 18px 18px 0 0;
+    opacity: 0;
+    will-change: transform, opacity;
+    filter: drop-shadow(0 0 3px rgba(255, 107, 129, 0.3));
+}
+
+.heart:before,
+.heart:after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: inherit;
+    border-radius: 50%;
+}
+
+.heart:before {
+    top: -50%;
+    left: 0;
+}
+
+.heart:after {
+    left: 50%;
+    top: 0;
+}
+
+/* Enhanced particle animations */
+.heart.float-up {
+    animation: floatUp var(--duration, 3s) cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes floatUp {
+    0% {
+        transform: translateY(0) translateX(0) rotate(-45deg);
+        opacity: 0;
+    }
+    15% {
+        opacity: 0.9;
+    }
+    50% {
+        opacity: 0.8;
+    }
+    90% {
+        opacity: 0.3;
+    }
+    100% {
+        transform: 
+            translateY(-120vh) 
+            translateX(var(--drift, 0)) 
+            rotate(calc(-45deg + var(--rotate, 0deg)));
+        opacity: 0;
+    }
+}
+
+/* Footer heart animations */
+.heart-icon {
+    position: absolute;
+    color: var(--accent);
+    opacity: 0;
+    font-size: 2rem;
+    will-change: transform, opacity;
+    animation: footerFloat 3s ease-in-out forwards;
+}
+
+@keyframes footerFloat {
+    0% {
+        transform: translateY(100%) rotate(-10deg);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.15;
+    }
+    90% {
+        opacity: 0.15;
+    }
+    100% {
+        transform: translateY(-100vh) rotate(10deg);
+        opacity: 0;
+    }
+}
+
+/* Poem Section */
+.poem-section {
+    min-height: 100vh;
+    background: linear-gradient(to bottom, #111 0%, #1a1a1a 100%);
+    padding: 4rem 1rem 8rem;
+    position: relative;
+    display: flex;
+    align-items: center;
+    isolation: isolate; /* Creates a new stacking context */
+    margin-bottom: 0;
+    contain: paint; /* Contain paint operations */
+}
+
+.poem-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+    padding: 0 1rem;
+    width: 100%;
+}
+
+.poem-layout {
+    display: flex;
+    gap: 2rem;
+    align-items: stretch;
+    min-height: calc(100vh - 8rem);
+}
+
+.poem-images {
+    flex: 0 0 400px;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    height: calc(100vh - 8rem);
+    padding: 1rem 0;
+}
+
+.poem-image {
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+    transform: translateY(0);
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    flex: 1;
+    min-height: 0; /* Allows flex child to shrink below content size */
+}
+
+.poem-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    vertical-align: middle;
+    transform: scale(1);
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.poem-image figcaption {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+.caption-text {
+    color: white;
+    font-size: 1.5rem;
+    font-weight: 500;
+    transform: translateY(20px);
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.poem-image:hover {
+    transform: translateY(-8px);
+}
+
+.poem-image:hover img {
+    transform: scale(1.1);
+}
+
+.poem-image:hover figcaption {
+    opacity: 1;
+}
+
+.poem-image:hover .caption-text {
+    transform: translateY(0);
+}
+
+.heart-overlay {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+}
+
+/* Poem Text Styles */
+.poem-content {
+    position: relative;
+    flex: 1;
+    padding: 1rem;
+    font-family: 'Georgia', serif;
+    line-height: 1.6;
+    color: rgba(255,255,255,0.9);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: calc(100vh - 8rem);
+}
+
+.poem-text {
+    position: relative;
+    z-index: 2;
+    max-height: 100%;
+    overflow-y: auto;
+    padding-right: 1rem;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255,255,255,0.2) transparent;
+}
+
+.poem-text p {
+    margin-bottom: 1.5rem;
+    font-size: 1rem;
+    text-align: left;
+}
+
+.poem-text p:first-child {
+    font-size: 1.3rem;
+    margin-bottom: 2rem;
+    color: var(--accent);
+}
+
+/* Decorative Elements */
+.decorative-elements {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.stars, .hearts, .cute-icons {
+    position: absolute;
+    inset: 0;
+}
+
+/* Small responsive tweaks */
+/* Custom scrollbar for Webkit browsers */
+.poem-text::-webkit-scrollbar {
+    width: 6px;
+}
+
+.poem-text::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.poem-text::-webkit-scrollbar-thumb {
+    background-color: rgba(255,255,255,0.2);
+    border-radius: 3px;
+}
+
+@media (max-width: 1100px) {
+    .poem-images {
+        flex: 0 0 350px;
+    }
+}
+
+@media (max-width: 900px) {
+    .poem-section {
+        padding: 2rem 1rem;
+        min-height: auto;
+        height: auto;
+    }
+
+    .poem-layout {
+        min-height: 0;
+        flex-direction: column;
+        height: auto;
+    }
+    
+    .poem-images {
+        flex: none;
+        height: auto;
+        flex-direction: row;
+        gap: 1.5rem;
+    }
+
+    .poem-image {
+        aspect-ratio: 3/4;
+    }
+
+    .poem-content {
+        height: auto;
+    }
+
+    .poem-text {
+        max-height: none;
+        overflow: visible;
+    }
+}
+
+/* Footer Styles */
+.footer-wrapper {
+    position: relative;
+    z-index: 100;
+    background: #111;
+    width: 100%;
+    isolation: isolate;
+}
+
+.letter-footer {
+    background: linear-gradient(to bottom, #111, #000);
+    padding: 3rem 1rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+.footer-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    position: relative;
+    z-index: 11;
+    background: transparent;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 1rem;
+}
+
+.footer-text {
+    font-size: 1.1rem;
+    color: rgba(255,255,255,0.9);
+    font-style: italic;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    position: relative;
+}
+
+.signature {
+    font-family: 'Brush Script MT', cursive;
+    font-size: 2.8rem;
+    color: var(--accent);
+    margin-top: 0.8rem;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+    position: relative;
+    display: inline-block;
+    background: linear-gradient(45deg, var(--accent), #ff8aa2);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+}
+
+.signature::after {
+    content: '';
+    position: absolute;
+    left: -10%;
+    bottom: -5px;
+    width: 120%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    opacity: 0.6;
+}
+
+.footer-hearts {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.heart-icon {
+    position: absolute;
+    color: var(--accent);
+    opacity: 0.15;
+    font-size: 2rem;
+    animation: float 3s infinite ease-in-out;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0) rotate(-10deg); }
+    50% { transform: translateY(-15px) rotate(10deg); }
+}
+
+/* Romantic Interactions */
+.love-quote {
+    position: fixed;
+    pointer-events: none;
+    padding: 1rem;
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(8px);
+    border-radius: 12px;
+    color: white;
+    font-style: italic;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.3s ease;
+    z-index: 1000;
+    text-align: center;
+    max-width: 280px;
+}
+
+.love-quote.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.cursor-heart {
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    font-size: 12px;
+    color: var(--accent);
+    opacity: 0;
+    transform: translate(-50%, -50%);
+    animation: floatAndFade 1s forwards;
+}
+
+@keyframes floatAndFade {
+    0% {
+        opacity: 0.8;
+        transform: translate(-50%, -50%) scale(0.5);
+    }
+    100% {
+        opacity: 0;
+        transform: translate(-50%, -150%) scale(1.5);
+    }
+}
+
+/* Music Player */
+.music-control {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    z-index: 1000;
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(8px);
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+.music-control:hover {
+    transform: scale(1.1);
+    background: rgba(255,255,255,0.2);
+}
+
+.music-control i {
+    color: white;
+    font-size: 1.2rem;
+}
+
+/* Memory Bubbles */
+.memory-bubble {
+    position: absolute;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.2);
+    backdrop-filter: blur(4px);
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+    border: 2px solid rgba(255,255,255,0.3);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    animation: pulseGlow 2s infinite ease-in-out;
+}
+
+.memory-bubble:nth-child(odd) {
+    animation-delay: 1s;
+}
+
+.memory-bubble img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.8;
+    transition: all 0.3s ease;
+}
+
+.memory-bubble:hover {
+    transform: scale(1.15);
+    border-color: var(--accent);
+    box-shadow: 0 0 20px rgba(255,107,129,0.3);
+}
+
+.memory-bubble:hover img {
+    opacity: 1;
+}
+
+@keyframes pulseGlow {
+    0%, 100% { 
+        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+    50% { 
+        box-shadow: 0 4px 25px rgba(255,107,129,0.3);
+    }
+}
+
+.memory-bubble.expanded {
+    width: 300px;
+    height: 400px;
+    border-radius: 20px;
+    z-index: 1000;
+    animation: none;
+    border: 3px solid var(--accent);
+    position: fixed;
+    transform: translate(-50%, -50%);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.memory-bubble.memory-left.expanded {
+    transform-origin: left center;
+    left: calc(8% + 20px) !important;
+}
+
+.memory-bubble.memory-right.expanded {
+    transform-origin: right center;
+    left: calc(85% - 320px) !important; /* 320px is the expanded width */
+}
+
+.memory-bubble.expanded img {
+    opacity: 1;
+    transform: scale(1.02);
+}
+
+/* Ensure proper positioning relative to viewport edges */
+.memory-bubble.expanded:not(.transitioning) {
+    max-width: 90vw;
+    max-height: 80vh;
+    margin: 20px;
+}
+
+.memory-content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 1.2rem;
+    background: linear-gradient(transparent, rgba(0,0,0,0.85));
+    color: white;
+    transform: translateY(100%);
+    transition: transform 0.4s ease;
+    font-family: 'Georgia', serif;
+    font-size: 1.1rem;
+    text-align: center;
+    font-style: italic;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.memory-bubble.expanded .memory-content {
+    transform: translateY(0);
+}
+
+/* Close button for expanded memories */
+.memory-bubble.expanded::before {
+    content: '×';
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    width: 30px;
+    height: 30px;
+    background: rgba(0,0,0,0.5);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 2;
+}
+
+.memory-bubble.expanded:hover::before {
+    opacity: 1;
+}
+
+.memory-bubble.expanded .memory-content {
+    transform: translateY(0);
+}
+
+/* Small responsive tweaks */
+@media (max-width:480px){
+    .hero-title{font-size:2rem}
+    .cta{padding:.6rem 1.1rem}
+    
+    .poem-images {
+        flex-direction: column;
+    }
+    
+    .poem-image {
+        aspect-ratio: 1/1;
+    }
+    
+    .poem-text p {
+        font-size: 0.95rem;
+    }
+
+    .signature {
+        font-size: 2rem;
+    }
+    
+    .music-control {
+        bottom: 1rem;
+        right: 1rem;
+        width: 40px;
+        height: 40px;
+    }
+    
+    .memory-bubble.expanded {
+        width: 90vw;
+        height: 70vh;
+    }
+}
+
+/* Decorative Elements Animation Classes */
+.star {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: white;
+    border-radius: 50%;
+    filter: blur(1px);
+    opacity: 0.6;
+    animation: twinkle 1.5s infinite ease-in-out;
+}
+
+.cute-icon {
+    position: absolute;
+    font-size: 1.2rem;
+    opacity: 0.15;
+    transform: rotate(var(--rotate, 0deg));
+}
+
+@keyframes twinkle {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
+}
