@@ -158,28 +158,35 @@ body{
 .poem-section {
     min-height: 100vh;
     background: linear-gradient(to bottom, #111 0%, #1a1a1a 100%);
-    padding: 4rem 1rem 8rem;
+    padding: 4rem 2rem 8rem;
     position: relative;
     display: flex;
     align-items: center;
     isolation: isolate; /* Creates a new stacking context */
     margin-bottom: 0;
     contain: paint; /* Contain paint operations */
+    overflow-x: hidden; /* Prevent horizontal scroll */
 }
 
 .poem-container {
-    max-width: 1200px;
+    max-width: 1400px;
     margin: 0 auto;
     position: relative;
-    padding: 0 1rem;
+    padding: 0 2rem;
     width: 100%;
+    display: flex;
+    justify-content: center;
 }
 
 .poem-layout {
     display: flex;
-    gap: 2rem;
+    gap: 4rem;
     align-items: stretch;
     min-height: calc(100vh - 8rem);
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 2rem;
 }
 
 .poem-images {
@@ -333,26 +340,56 @@ body{
         min-height: 0;
         flex-direction: column;
         height: auto;
+        margin: 0 auto;
+        max-width: 600px;
     }
     
     .poem-images {
         flex: none;
         height: auto;
-        flex-direction: row;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
         gap: 1.5rem;
+        padding: 1.5rem;
     }
 
     .poem-image {
-        aspect-ratio: 3/4;
+        aspect-ratio: 1/1;
+        margin-bottom: 1rem;
     }
 
     .poem-content {
         height: auto;
+        padding: 2rem 1rem;
     }
 
     .poem-text {
         max-height: none;
         overflow: visible;
+        text-align: center;
+    }
+
+    .memory-bubble {
+        position: fixed;
+    }
+
+    .memory-bubble.memory-left {
+        left: 20px !important;
+    }
+
+    .memory-bubble.memory-right {
+        right: 20px !important;
+        left: auto !important;
+    }
+
+    .memory-bubble.expanded {
+        left: 50% !important;
+        right: auto !important;
+        transform: translate(-50%, -50%) !important;
+        width: calc(100vw - 40px);
+        height: auto;
+        max-height: 80vh;
+        aspect-ratio: 3/4;
     }
 }
 
@@ -519,9 +556,9 @@ body{
 
 /* Memory Bubbles */
 .memory-bubble {
-    position: absolute;
-    width: 45px;
-    height: 45px;
+    position: fixed;
+    width: 60px;
+    height: 60px;
     border-radius: 50%;
     background: rgba(255,255,255,0.2);
     backdrop-filter: blur(4px);
@@ -531,6 +568,7 @@ body{
     border: 2px solid rgba(255,255,255,0.3);
     box-shadow: 0 4px 15px rgba(0,0,0,0.2);
     animation: pulseGlow 2s infinite ease-in-out;
+    margin: 15px;
 }
 
 .memory-bubble:nth-child(odd) {
@@ -565,25 +603,39 @@ body{
 }
 
 .memory-bubble.expanded {
-    width: 300px;
-    height: 400px;
+    width: 400px;
+    height: 500px;
     border-radius: 20px;
     z-index: 1000;
     animation: none;
     border: 3px solid var(--accent);
     position: fixed;
+    top: 50% !important;
     transform: translate(-50%, -50%);
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    margin: 0 20px;
+    max-width: calc(100vw - 40px);
+    max-height: calc(100vh - 60px);
 }
 
-.memory-bubble.memory-left.expanded {
-    transform-origin: left center;
-    left: calc(8% + 20px) !important;
+.memory-bubble.memory-left {
+    left: 30px;
 }
 
-.memory-bubble.memory-right.expanded {
-    transform-origin: right center;
-    left: calc(85% - 320px) !important; /* 320px is the expanded width */
+.memory-bubble.memory-right {
+    right: 30px;
+}
+
+.memory-bubble:nth-of-type(1) { top: 20%; }
+.memory-bubble:nth-of-type(2) { top: 40%; }
+.memory-bubble:nth-of-type(3) { top: 60%; }
+.memory-bubble:nth-of-type(4) { top: 25%; }
+.memory-bubble:nth-of-type(5) { top: 45%; }
+.memory-bubble:nth-of-type(6) { top: 65%; }
+
+.memory-bubble.expanded {
+    left: 50% !important;
+    right: auto !important;
 }
 
 .memory-bubble.expanded img {
@@ -625,22 +677,25 @@ body{
     position: absolute;
     top: 15px;
     right: 15px;
-    width: 30px;
-    height: 30px;
-    background: rgba(0,0,0,0.5);
+    width: 35px;
+    height: 35px;
+    background: rgba(0,0,0,0.7);
     color: white;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 20px;
-    opacity: 0;
-    transition: opacity 0.3s ease;
+    font-size: 24px;
+    opacity: 1;
     z-index: 2;
+    transition: all 0.3s ease;
+    border: 2px solid rgba(255,255,255,0.3);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
 }
 
-.memory-bubble.expanded:hover::before {
-    opacity: 1;
+.memory-bubble.expanded::before:hover {
+    background: rgba(0,0,0,0.9);
+    transform: scale(1.1);
 }
 
 .memory-bubble.expanded .memory-content {
@@ -652,16 +707,27 @@ body{
     .hero-title{font-size:2rem}
     .cta{padding:.6rem 1.1rem}
     
+    .poem-section {
+        padding: 2rem 1rem;
+    }
+
+    .poem-layout {
+        padding: 1rem;
+    }
+    
     .poem-images {
-        flex-direction: column;
+        grid-template-columns: 1fr;
+        padding: 1rem;
     }
     
     .poem-image {
         aspect-ratio: 1/1;
+        margin-bottom: 1.5rem;
     }
     
     .poem-text p {
         font-size: 0.95rem;
+        padding: 0 1rem;
     }
 
     .signature {
@@ -675,10 +741,48 @@ body{
         height: 40px;
     }
     
-    .memory-bubble.expanded {
-        width: 90vw;
-        height: 70vh;
+    .memory-bubble {
+        width: 45px;
+        height: 45px;
     }
+
+    .memory-bubble.memory-left {
+        left: 15px !important;
+    }
+
+    .memory-bubble.memory-right {
+        right: 15px !important;
+    }
+    
+    .memory-bubble.expanded {
+        width: calc(100vw - 30px);
+        height: auto;
+        aspect-ratio: 4/5;
+        top: 50% !important;
+        margin: 0 15px;
+        max-height: 80vh;
+    }
+
+    .memory-content {
+        font-size: 0.9rem;
+        padding: 1rem;
+    }
+
+    .memory-bubble.expanded::before {
+        width: 40px;
+        height: 40px;
+        font-size: 28px;
+        top: 10px;
+        right: 10px;
+    }
+
+    /* Adjust bubble positions for mobile */
+    .memory-bubble:nth-of-type(1) { top: 15%; }
+    .memory-bubble:nth-of-type(2) { top: 35%; }
+    .memory-bubble:nth-of-type(3) { top: 55%; }
+    .memory-bubble:nth-of-type(4) { top: 25%; }
+    .memory-bubble:nth-of-type(5) { top: 45%; }
+    .memory-bubble:nth-of-type(6) { top: 65%; }
 }
 
 /* Decorative Elements Animation Classes */
